@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-
+import Modal from 'react-modal';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import App from './App.jsx';
@@ -10,7 +10,8 @@ import Search from './pages/Search.jsx';
 import Suggestions from './pages/Suggestions.jsx';
 import About from './pages/About.jsx';
 
-// subjects
+// Set the app element to the root
+Modal.setAppElement('#root');
 
 // Define the accessible routes, and which components respond to which URL
 const router = createBrowserRouter([

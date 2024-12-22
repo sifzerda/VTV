@@ -18,7 +18,7 @@
   --bootstrap-lighter: #364459;
   --bootstrap-lightest: #96a4b3;
   --cyan: #01fff7;
-  --light-red: #f02652;
+  --light-red: #ff3859;
   --gold: #ffc107;
   --creepy-green: #9cffd9;
   --creepy-green2:  #cefff4;
@@ -73,8 +73,18 @@ body {
 }
 
 .main-content {
-padding-bottom: 30px; /* Add some space at the bottom */
+  flex: 1; /* Take remaining space */
+  padding-bottom: 30px; /* Space for footer */
+  overflow-y: auto; /* Enable vertical scrolling */
 }
+
+/* this pushes footer to hug the bottom */
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+} 
+
 
 /* --------------------- header -----------------------*/
 
@@ -351,7 +361,7 @@ footer {
   font-weight: bold;
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); /* 3D shadow effect */
-  transition: all 0.2s ease-in-out; /* Smooth transition for hover and click */
+  transition: all 0.3s ease-in-out; /* Smooth transition for hover and click */
 }
 
 .save-button:hover {
@@ -892,10 +902,23 @@ font-size: 18px;
   border: none;
   padding: 5px 10px;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.playlist-toggle:hover {
-  background-color: #555;
+.save-playlist-button {
+  background-color: var(--light-red);
+  color: rgb(0, 0, 0);
+  text-transform: uppercase;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.playlist-toggle:hover,
+.save-playlist-button:hover {
+  background-color: #ffffff;
+  color: black;
 }
 
 .playlist-container.visible {
@@ -985,6 +1008,84 @@ button.press-play {
 button.press-play:hover {
   background-color: #c9fd98; 
   color: rgb(0, 0, 0);    
+}
+
+/* save playlist modal ----------------------------*/
+
+/* Overlay styling */
+.custom-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75); /* Dim background */
+  z-index: 1000; /* Ensure it is above other content */
+}
+
+/* Modal content styling */
+.custom-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #222; /* Dark background */
+  color: #fff; /* White text */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Drop shadow */
+  width: 90%;
+  max-width: 500px;
+  text-align: center; /* Center content */
+  z-index: 1100; /* Above overlay */
+  border: 1px solid #c8ff00;
+}
+
+/* Input field */
+.custom-modal input[type="text"] {
+  width: 90%;
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+/* Save button */
+.save-playlist {
+  background-color: #00bb06; /* Green */
+  color: white;
+  padding: 10px 20px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+/* Save button hover effect */
+.save-playlist:hover {
+  background-color: #c8ff00;  
+  color: black;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #ff4444;
+  color: white;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.close-btn:hover {
+  background-color: #fc7575;
 }
 
 /* --------------------- music player: current song CSS -----------------------*/
@@ -1325,6 +1426,294 @@ button.suggestion-btn {
   display: inline-block;
 }
 
+/* ---------------------------- Profile ------------------------*/
+
+/* General Profile Container */
+.profile-container {
+  font-family: 'Arial', sans-serif;
+  padding: 20px;
+  background-color: #f8f9fa;
+}
+
+/* Jumbo Background */
+.jumbo-bg-dark {
+  background-color: #242424;
+  padding: 50px 0;
+  text-align: center;
+  color: white;
+}
+
+.jumbo-bg-dark-text {
+  font-size: 36px;
+  font-weight: bold;
+}
+
+/* Playlist Section */
+.playlists-container {
+  margin-top: 20px;
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* Playlist Cards Grid */
+.playlist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+/* Individual Playlist Card */
+.playlist-card {
+  background-color: #242424;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out;
+}
+
+.playlist-card:hover {
+  transform: translateY(-5px);
+  border: 6px ridge var(--volt);
+}
+
+.playlist-title {
+  font-size: 20px;
+  font-weight: 600;
+  background: linear-gradient(90deg, #4a90e2, #50e3c2); /* gradient background */
+  color: black;
+  padding: 10px;
+  margin: 0;
+}
+
+/* Song List Styles */
+.song-list {
+  padding: 10px;
+  list-style-type: none;
+  margin: 0;
+}
+
+.song-item {
+  font-size: 16px;
+  padding: 5px 0;
+  border-bottom: 1px solid #ddd;
+  color: var(--volt);
+}
+
+.song-item:last-child {
+  border-bottom: none;
+}
+
+.video-id {
+  font-size: 12px;
+  color: #888;
+}
+
+.load-button {
+  background-color: #4a90e2;
+  color: white;
+  border-radius: 4px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  border: 1px solid white;
+  /* Add transition to smooth the background and color changes */
+  transition: background 0.4s ease, color 0.3s ease;
+}
+
+/* Hover effect for the buttons */
+.load-button:hover {
+  background: linear-gradient(90deg, #bbff00, #42eb00);
+  color: black; 
+  border: 1px solid black;
+}
+
+/* --------------------- Message Board/About Page -----------------------*/
+
+.thought-form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 10px;
+  background-color: #f1f7ff;
+  border-radius: 8px;
+}
+
+.form-group-thought {
+  margin-bottom: 15px;
+}
+
+.thought-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #333;
+}
+
+.form-control-thought {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  color: #333;
+  resize: vertical; 
+  overflow: auto; 
+}
+
+.form-control-thought:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.25);
+  outline: none;
+}
+
+/* Message Board Container */
+.message-board {
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: #f1f7ff;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-family: 'Inter', sans-serif;
+}
+
+/* Title Styling */
+.board-title {
+  font-size: 2.2rem;
+  text-align: left;
+  color: #00274d;
+  margin-bottom: 25px;
+  font-weight: 600;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 10px;
+}
+
+/* No Thoughts Message */
+.no-thoughts {
+  text-align: center;
+  color: #555;
+  font-size: 1.2rem;
+  margin-top: 20px;
+  font-style: italic;
+}
+
+/* Individual Thought Cards */
+.thought-card {
+  margin-bottom: 20px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.real-thought {
+  margin-bottom: 20px;
+  border-radius: 5px;
+  overflow: hidden;
+  background-color: #fff;
+  border: 1px solid #d1e7ff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+}
+
+/* Thought Header */
+.thought-header {
+  background: linear-gradient(90deg, #50e3c2, #4a90e2 ); 
+  color: #ffffff;
+  padding: 2px 16px;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+/* Author Styling */
+.thought-author {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #000000;
+}
+
+/* Date Styling */
+.thought-date {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: #000000;
+}
+
+/* Thought Body */
+.thought-body {
+  padding: 15px;
+  font-size: 1rem;
+  color: #333;
+  line-height: 1.6;
+}
+
+.black-text {
+  color: #ffffff;
+}
+
+/* ----------------post comments --------------------*/
+
+.comment-box {
+  border: 1px solid #ddd;
+  padding: 12px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.comment-author {
+  font-weight: bold;
+  color: #333;
+}
+
+.comment-date {
+  font-size: 12px;
+  color: #999;
+  margin-left: 8px;
+}
+
+.comment-body {
+  margin: 8px 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.comment-form {
+  margin-top: 16px;
+}
+
+.comment-form textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.comment-button {
+  background-color: #4a90e2;
+  color: white;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 14px;
+  border: 1px solid rgb(0, 0, 0);
+  /* Add transition to smooth the background and color changes */
+  transition: background 0.4s ease, color 0.3s ease;
+}
+
+.comment-button:hover {
+  background-color: #00ffd5;
+  color: black;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  padding: 5px;
+}
+
 /* ---------------------------- MEDIA QUERIES ------------------------*/
 
 /* Tablet Size (768px and below) */
@@ -1343,6 +1732,19 @@ button.suggestion-btn {
     font-size: 10px;
     min-width: 28px;
     padding: 2px 4px;
+  }
+
+  .message-board {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .board-title {
+    font-size: 1.8rem;
+  }
+
+  .thought-body {
+    font-size: 0.95rem;
   }
 }
 

@@ -4,23 +4,23 @@ import Navigation from './components/Navigation';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import './App.css'
-import './custom.css'
 
 function App() {
 
   return (
     <>
-      <div>
 
-      <Header />
-      <Navigation />
+      <header className="header">
+        <Header />
+        <Navigation />
+      </header>
+
+      <main className="main-content">
 
       <Outlet />
 
+      </main>
       <Footer />
-
-      </div>
-      
 
     </>
   )
